@@ -1,7 +1,6 @@
 #! /usr/bin/env morseexec
 
-""" 
-Basic MORSE simulation scene for <sim> environment
+""" Basic MORSE simulation scene for <sim> environment
 
 Feel free to edit this template as you like!
 """

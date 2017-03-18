@@ -4,14 +4,14 @@
 [simulation]
 	numrobot = 1
 	numobject = 3
-	map = "simple_square"
+	map = "square_maze_medium"
 	actuators = ["MotionVW", "Keyboard"]
 	sensors = ["Pose", "Proximity", "Infrared"]
 	[[simulation.objects]]
-		file = "objects"
+		file = "target"
 		name = "GOAL"
-		x = 0
-		y = 0
+		x = 5
+		y = 5
 		z = 0.01
 		[simulation.objects.properties]
 			Label = "GOAL"
