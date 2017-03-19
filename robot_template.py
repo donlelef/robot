@@ -9,8 +9,8 @@ like ROS (www.ros.org).
 """
 
 import sys
+import numpy as np
 import time
-import math
 
 try:
     from pymorse import Morse
@@ -18,78 +18,55 @@ except ImportError:
     print("you need first to install pymorse, the Python bindings for MORSE!")
     sys.exit(1)
 
-def print_position(position):
+def set_vel(robot, linear_vel, angular_vel):
+    robot.motion.publish({'v': linear_vel, 'w':angular_vel})
 
-    print('({0:.3f}, {1:.3f})'.format(position['x'], position['y'], position['z']))
+def get_xy_position(robot):
+    position = robot.pose.get()
+    return {'x': position['x'], 'y': position['y']}
 
-def print_dist_to_goal(distance):
-     print('Distance to goal: {0:.3f}'.format(distance['near_robots']['GOAL']))
-     
-def get_min_range(robot):
-    return min([robot.ir1.get()['range_list'][10], robot.ir2.get()['range_list'][10],robot.ir3.get()['range_list'][10]]) 
+def get_distance(robot):
+    return robot.prox.get()['near_robots']['GOAL']
 
-def get_yaw(robot):
-    return robot.pose.get()['yaw']
-
-def set_lin_vel(robot, vel):
-    robot.motion.publish({'v': vel, 'w':0})
-
-def set_ang_vel(robot, vel):
-    robot.motion.publish({'v': 0, 'w': vel})
-
-def go_straight(robot, vel):
-    set_lin_vel(robot, vel)
-
-def rotate_of(robot, degree, ang_vel):
-    set_lin_vel(robot, 0)
-    print('Stopped')
-    target_yaw = get_yaw(robot) + degree
-    set_ang_vel(robot, ang_vel)
-    print('Rotating')
-    delta = 0.05
-    while ((get_yaw(robot) > target_yaw - delta) & (get_yaw(robot) < target_yaw + delta)) == False:
-        pass
-    set_ang_vel(robot, 0) 
-    print('Stop rotating')  
-
-def rotate_to(robot, degree, ang_vel):
-    set_lin_vel(robot, 0)
-    print('Stopped')
-    target_yaw = degree
-    set_ang_vel(robot, ang_vel)
-    print('Rotating')
-    delta = 0.05
-    while ((get_yaw(robot) > target_yaw - delta) & (get_yaw(robot) < target_yaw + delta)) == False:
-        pass
-    set_ang_vel(robot, 0) 
-    print('Stop rotating')
-
-def robot_is_free(robot):
-    range = get_min_range(robot)
-    return range > 1.8
-
-def rotate_to_freedom(robot, ang_vel):
-    set_lin_vel(robot, 0)
-    print('Stopped')
-    set_ang_vel(robot, ang_vel)
-    print('Rotating')
-    while (robot_is_free(robot)) == False:
-        pass
-    set_ang_vel(robot, 0) 
-    print('Stop rotating')
+def stop(robot):
+    set_vel(robot, 0, 0)
 
 with Morse() as sim:
 
     rob = sim.robot
-    v = 1.5
-    w = 1
-    degree = -(math.pi / 2)
-    go_straight(rob, v)
 
-    while True:
-        if robot_is_free(rob) == False:
-            print('Obtacle detected front')
-            rotate_to_freedom(rob, w)
-            go_straight(rob, v)
-            print('Going straight')
-       
+    pos1 = get_xy_position(rob)
+    r1 = get_distance(rob)
+
+    set_vel(rob, 1, 0.3)
+    time.sleep(1)
+    stop(rob)
+    pos2 = get_xy_position(rob)
+    r2 = get_distance(rob)
+    
+    set_vel(rob, 1, 0.3)
+    time.sleep(1)
+    stop(rob)
+    pos3 = get_xy_position(rob)
+    r3 = get_distance(rob)
+
+    x1 = pos1['x']
+    x2 = pos2['x']
+    x3 = pos3['x']
+    y1 = pos1['y']
+    y2 = pos2['y']
+    y3 = pos3['y']
+
+    a = -2 * x1 + 2 * x2
+    b = -2 * y1 + 2 * y2
+    c = r1**2 - r2**2 - x1**2 + x2**2 - y1**2 + y2**2
+    d = -2 * x2 + 2 * x3
+    e = -2 * y2 + 2 * y3
+    f = r2**2 - r3**2 - x2**2 + x3**2 - y2**2 + y3**2
+
+    A = np.array([[a, b], [d, e]])
+    B = np.array([[c], [f]])
+
+    goal = np.linalg.solve(A, B)
+
+    print(str(goal))

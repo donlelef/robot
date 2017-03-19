@@ -4,7 +4,7 @@
 [simulation]
 	numrobot = 1
 	numobject = 3
-	map = "square_maze_medium"
+	map = "simple_square"
 	actuators = ["MotionVW", "Keyboard"]
 	sensors = ["Pose", "Proximity", "Infrared"]
 	[[simulation.objects]]
