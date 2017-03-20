@@ -4,7 +4,7 @@
 [simulation]
 	numrobot = 1
 	numobject = 3
-	map = "simple_square"
+	map = "bug"
 	actuators = ["MotionVW", "Keyboard"]
 	sensors = ["Pose", "Proximity", "Infrared"]
 	[[simulation.objects]]

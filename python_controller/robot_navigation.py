@@ -29,6 +29,7 @@ def left_too_far(robot):
 def left_too_near(robot):
     return robot.at_left_range < 1
 
+
 try:
     from pymorse import Morse
 except ImportError:
@@ -60,37 +61,30 @@ with Morse() as sim:
     state = 'motion_to_goal'
 
     while robot.distance_to_target > 3:
-        if state == 'motion_to_goal':
-            actual_position = pos3
-            actual_orientation = robot.orientation
-            vector_to_goal = goal - actual_position
+        while (robot.ahead_range >= 2) & (robot.distance_to_target > 3):
+            vector_to_goal = goal - robot.position
             goal_orientation = math.atan2(vector_to_goal.y, vector_to_goal.x)
-            required_rotation_angle = goal_orientation - actual_orientation
+            required_rotation_angle = goal_orientation - robot.orientation
 
             robot.rotate_of(required_rotation_angle, 1)
-            robot.set_velocity(100, 0)
 
-            while (robot.ahead_range >= 2) & (robot.distance_to_target > 3):
-                pass
-
+            robot.set_velocity(1, 0)
+            time.sleep(1)
             robot.stop()
-            state = 'boudary_following'
-            break
 
-        if state == 'boudary_following':
-            while True:
-                if ahead_not_free(robot):
-                    robot.set_velocity(0, -2)
-                    while ahead_not_free(robot):
-                        pass
-                elif left_too_near(robot):
-                    robot.set_velocity(2, -2)
-                    while left_too_near(robot):
-                        pass
-                elif left_too_far(robot):
-                    robot.set_velocity(2, 2)
-                    while left_too_far(robot):
-                        pass
-            robot.set_velocity(2, 0)
-    
+        while True:
+            if ahead_not_free(robot):
+                robot.set_velocity(0, -2)
+                while ahead_not_free(robot):
+                    pass
+            elif left_too_near(robot):
+                robot.set_velocity(2, -2)
+                while left_too_near(robot):
+                    pass
+            elif left_too_far(robot):
+                robot.set_velocity(2, 2)
+                while left_too_far(robot):
+                    pass
+        robot.set_velocity(2, 0)
+
     robot.stop()
