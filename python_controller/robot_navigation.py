@@ -85,6 +85,6 @@ with Morse() as sim:
                 robot.set_velocity(2, 2)
                 while left_too_far(robot):
                     pass
-        robot.set_velocity(2, 0)
+            robot.set_velocity(2, 0)
 
     robot.stop()
