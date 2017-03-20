@@ -1,8 +1,13 @@
 import numpy as np
 from position import Position2D
-
+from geometric_utils import GeometricUtils
 
 class TrilaterationSolver:
+
+    geometric_utils = None
+
+    def __init__(self, tolerance):
+        self.geometric_utils = GeometricUtils(tolerance)
 
     @staticmethod
     def trilaterate(x1, y1, r1, x2, y2, r2, x3, y3, r3):
@@ -20,8 +25,10 @@ class TrilaterationSolver:
 
         return Position2D(object_position[0][0], object_position[1][0])
 
-    @staticmethod
-    def trilaterate_using_projections(x1, y1, r1, x2, y2, r2, x3, y3, r3):
+    def trilaterate_using_projections(self, x1, y1, r1, x2, y2, r2, x3, y3, r3):
+        if self.geometric_utils.check_if_collinear(Position2D(x1, y1), Position2D(x2, y2), Position2D(x3, y3)):
+            print("Points are collinear")
+
         P1 = np.array([x1, y1])
         P2 = np.array([x2, y2])
         P3 = np.array([x3, y3])

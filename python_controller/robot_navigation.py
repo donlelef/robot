@@ -14,6 +14,7 @@ import time
 from robot import Robot
 from position import Position2D
 from trilateration_solver import TrilaterationSolver
+from geometric_utils import GeometricUtils
 
 try:
     from pymorse import Morse
@@ -24,6 +25,7 @@ except ImportError:
 with Morse() as sim:
 
     robot = Robot(sim.robot)
+    solver = TrilaterationSolver(0.1)
 
     pos1 = robot.position
     r1 = robot.distance_to_target
@@ -38,6 +40,6 @@ with Morse() as sim:
     pos3 = robot.position
     r3 = robot.distance_to_target
 
-    goal = TrilaterationSolver.trilaterate_using_projections(pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
+    goal = solver.trilaterate_using_projections(pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
 
     print(str(goal))
