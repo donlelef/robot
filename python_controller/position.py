@@ -7,6 +7,12 @@ class Position2D:
     def __str__(self):
         return '({0:.2f}, {1:.2f})'.format(self.x, self.y)
 
+    def __add__(self, other):
+        return Position2D(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Position2D(self.x - other.x, self.y - other.y)
+
     @staticmethod
     def from_morse(morse_position):
         x = morse_position['x']

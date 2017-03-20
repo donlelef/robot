@@ -3,10 +3,11 @@
 from time import sleep
 from position import Position2D
 
+
 class Robot:
 
     morse_object = None
-    
+
     def __init__(self, morse_robot):
         self.morse_object = morse_robot
 
@@ -46,10 +47,11 @@ class Robot:
         self.morse_object.motion.publish({'w': angular})
         return self
 
-    def rotate_of(self, degree, velocity):
+    def rotate_of(self, radiants, velocity):
         self.stop()
-        delay = degree / velocity
-        self.set_velocity(0, 1).stop_after(delay)
+        delay = abs(radiants / velocity)
+        velocity = velocity if radiants > 0 else -velocity
+        self.set_velocity(0, velocity).stop_after(delay)
 
     def stop(self):
         self.set_velocity(0, 0)
