@@ -28,16 +28,16 @@ with Morse() as sim:
     pos1 = robot.position
     r1 = robot.distance_to_target
 
-    robot.set_velocity(1, 0.3).stop_after(1)
+    robot.set_velocity(1, 1).stop_after(1)
 
     pos2 = robot.position
     r2 = robot.distance_to_target
     
-    robot.set_velocity(1, 0.3).stop_after(1)
+    robot.set_velocity(1, 1).stop_after(1)
 
     pos3 = robot.position
     r3 = robot.distance_to_target
 
-    goal = TrilaterationSolver.trilaterate(pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
+    goal = TrilaterationSolver.trilaterate(pos1, r1, pos2, r2, pos3, r3)
 
     print(str(goal))

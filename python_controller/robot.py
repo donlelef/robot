@@ -1,24 +1,11 @@
 #! /usr/bin/env python3
 
 from time import sleep
-
-class Position2D:
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __str__(self):
-        return '({0:.2f}, {1:.2f})'.format(self.x, self.y)
-
-    @staticmethod
-    def from_morse(morse_position):
-        x = morse_position['x']
-        y = morse_position['y']
-        return Position2D(x, y)
-
+from position import Position2D
 
 class Robot:
+
+    morse_object = None
     
     def __init__(self, morse_robot):
         self.morse_object = morse_robot
@@ -35,9 +22,34 @@ class Robot:
     def orientation(self):
         return self.morse_object.pose.get()['yaw']
 
+    @property
+    def ahead_range(self):
+        return self.morse_object.ir1.get()['range_list'][10]
+
+    @property
+    def at_left_range(self):
+        return self.morse_object.ir2.get()['range_list'][10]
+
+    @property
+    def at_right_range(self):
+        return self.morse_object.ir3.get()['range_list'][10]
+
+    @property
+    def back_range(self):
+        return self.morse_object.ir4.get()['range_list'][10]
+
     def set_velocity(self, linear, angular):
         self.morse_object.motion.publish({'v': linear, 'w': angular})
         return self
+
+    def set_angular_velocity(self, angular):
+        self.morse_object.motion.publish({'w': angular})
+        return self
+
+    def rotate_of(self, degree, velocity):
+        self.stop()
+        delay = degree / velocity
+        self.set_velocity(0, 1).stop_after(delay)
 
     def stop(self):
         self.set_velocity(0, 0)
