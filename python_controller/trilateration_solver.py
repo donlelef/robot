@@ -1,8 +1,9 @@
 import numpy as np
 from position import Position2D
 
+
 class TrilaterationSolver:
-    
+
     @staticmethod
     def trilaterate(x1, y1, r1, x2, y2, r2, x3, y3, r3):
         a = -2 * x1 + 2 * x2
@@ -18,3 +19,20 @@ class TrilaterationSolver:
         object_position = np.linalg.solve(A, B)
 
         return Position2D(object_position[0][0], object_position[1][0])
+
+    @staticmethod
+    def trilaterate_using_projections(x1, y1, r1, x2, y2, r2, x3, y3, r3):
+        P1 = np.array([x1, y1])
+        P2 = np.array([x2, y2])
+        P3 = np.array([x3, y3])
+
+        ex = (P2 - P1) / np.linalg.norm((P2 - P1))
+        i = np.dot(ex, (P3 - P1))
+        ey = (P3 - P1 - i * ex) / np.linalg.norm((P3 - P1 - i * ex))
+        d = np.linalg.norm((P2 - P1))
+        j = np.dot(ey, (P3 - P1))
+        x = (r1**2 - r2**2 + d**2) / (2 * d)
+        y = (r1**2 - r3**2 + i**2 + j**2) / (2 * j) - (i * x) / j
+        target = P1 + x*ex + y*ey
+
+        return Position2D(target[0], target[1])
