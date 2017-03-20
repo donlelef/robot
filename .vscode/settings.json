@@ -2,4 +2,6 @@
 {
     "workbench.iconTheme": "vscode-icons",
     "python.linting.pylintArgs": ["--disable=C"]
+,
+"python.linting.pylintEnabled": false
 }
