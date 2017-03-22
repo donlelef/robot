@@ -62,35 +62,41 @@ with Morse() as sim:
     goal = solver.trilaterate_using_projections(
         pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
 
+    line_to_goal = Line2D(robot.position, goal)
+
     first_mtg = True
 
     while True:
 
         '''motion to goal phase'''
-        '''direction is recomputed periodically to avoid significant deviations'''
-        while robot.ahead_range >= 2 & robot.distance_to_target > 0.5:
+        while robot.ahead_range >= 2 and robot.distance_to_target > 0.5:
             if first_mtg:
                 first_mtg = False
             else:
                 time.sleep(1)
                 robot.stop()
             rotate_to_goal(robot, goal, 1)
-            robot.set_velocity(1, 0)
-
-        '''noundary following phase'''
-        while True:
-            if ahead_not_free(robot):
-                robot.set_velocity(0, -2)
-                while ahead_not_free(robot):
-                    pass
-            elif left_too_near(robot):
-                robot.set_velocity(2, -2)
-                while left_too_near(robot):
-                    pass
-            elif left_too_far(robot):
-                robot.set_velocity(2, 2)
-                while left_too_far(robot):
-                    pass
             robot.set_velocity(2, 0)
-
-    robot.stop()
+        
+        if robot.distance_to_target <= 0.5:
+            '''target reached'''
+            robot.stop()
+            break
+        
+        if robot.ahead_range >= 2:
+            '''wall reached -> boundary following phase'''
+            initial_distance = robot.distance_to_target
+            while (not line_to_goal.contains_point(robot.position, 0.5)) and robot.distance_to_target <= initial_distance:
+                if ahead_not_free(robot):
+                    robot.set_velocity(0, -2)
+                    while ahead_not_free(robot):
+                        pass
+                elif left_too_near(robot):
+                    robot.set_velocity(2, -2)
+                    while left_too_near(robot):
+                        pass
+                elif left_too_far(robot):
+                    robot.set_velocity(2, 2)
+                    while left_too_far(robot):
+                        pass
+                robot.set_velocity(2, 0)
