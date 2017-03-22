@@ -3,7 +3,7 @@
 import sys
 import math
 from robot import Robot
-from position import Position2D
+from geometric_utils import Position2D
 
 def ahead_not_free(robot):
     return robot.ahead_range < 2

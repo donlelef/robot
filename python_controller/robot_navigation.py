@@ -12,9 +12,8 @@ import sys
 import numpy as np
 import time
 from robot import Robot
-from position import Position2D
 from trilateration_solver import TrilaterationSolver
-from geometric_utils import GeometricUtils
+from geometric_utils import GeometricUtils,Position2D
 import math
 
 
@@ -29,11 +28,16 @@ def left_too_far(robot):
 def left_too_near(robot):
     return robot.at_left_range < 1
 
+def rotate_to_goal(robot, goal, velocity):
+    vector_to_goal = goal - robot.position
+    goal_orientation = math.atan2(vector_to_goal.y, vector_to_goal.x)
+    required_rotation_angle = goal_orientation - robot.orientation
+    robot.rotate_of(required_rotation_angle, velocity)
 
 try:
     from pymorse import Morse
 except ImportError:
-    print("you need first to install pymorse, the Python bindings for MORSE!")
+    print("You need first to install pymorse, the Python bindings for MORSE!")
     sys.exit(1)
 
 
@@ -58,20 +62,22 @@ with Morse() as sim:
     goal = solver.trilaterate_using_projections(
         pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
 
-    state = 'motion_to_goal'
+    first_mtg = True
 
-    while robot.distance_to_target > 3:
-        while (robot.ahead_range >= 2) & (robot.distance_to_target > 3):
-            vector_to_goal = goal - robot.position
-            goal_orientation = math.atan2(vector_to_goal.y, vector_to_goal.x)
-            required_rotation_angle = goal_orientation - robot.orientation
+    while True:
 
-            robot.rotate_of(required_rotation_angle, 1)
-
+        '''motion to goal phase'''
+        '''direction is recomputed periodically to avoid significant deviations'''
+        while robot.ahead_range >= 2 & robot.distance_to_target > 0.5:
+            if first_mtg:
+                first_mtg = False
+            else:
+                time.sleep(1)
+                robot.stop()
+            rotate_to_goal(robot, goal, 1)
             robot.set_velocity(1, 0)
-            time.sleep(1)
-            robot.stop()
 
+        '''noundary following phase'''
         while True:
             if ahead_not_free(robot):
                 robot.set_velocity(0, -2)

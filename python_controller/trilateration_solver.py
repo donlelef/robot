@@ -1,6 +1,5 @@
 import numpy as np
-from position import Position2D
-from geometric_utils import GeometricUtils
+from geometric_utils import GeometricUtils, Position2D
 
 class TrilaterationSolver:
 

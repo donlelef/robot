@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 from time import sleep
-from position import Position2D
+from geometric_utils import Position2D
 
 
 class Robot:
