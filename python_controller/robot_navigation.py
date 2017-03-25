@@ -42,7 +42,6 @@ except ImportError:
     print("You need first to install pymorse, the Python bindings for MORSE!")
     sys.exit(1)
 
-
 with Morse() as sim:
 
     robot = Robot(sim.robot)
@@ -66,30 +65,30 @@ with Morse() as sim:
         pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
 
     line_to_goal = Line2D.from_two_points(robot.position, goal)
-
-    first_mtg = True
+    rotate_to_goal(robot, goal, 1)
+    robot.set_velocity(2, 0)
 
     while True:
 
-        '''motion to goal phase'''
-        while robot.ahead_range >= 2 and robot.distance_to_target > 0.5:
-            if first_mtg:
-                first_mtg = False
-            else:
-                time.sleep(1)
-                robot.stop()
+        '''TODO: capire se e come togliere lo sleep'''
+        while robot.ahead_range >= 2 and robot.distance_to_target >= 2:
+            '''motion to goal phase'''
+            time.sleep(0.5)
+            robot.stop()
             rotate_to_goal(robot, goal, 1)
             robot.set_velocity(2, 0)
 
-        if robot.distance_to_target <= 0.5:
+        if robot.distance_to_target < 2:
             '''target reached'''
-            robot.stop()
+            print("On the target, sir!")
             break
 
-        if robot.ahead_range >= 2:
+        if robot.ahead_range < 2:
             '''wall reached -> boundary following phase'''
+            print("Entering boundary following")
             initial_distance = robot.distance_to_target
-            while True:
+            initial_position = robot.position
+            while (not line_to_goal.contains_point(robot.position, 0.5)) or initial_position.is_close_to(robot.position, 1):
                 if ahead_not_free(robot):
                     robot.set_velocity(0, -2)
                     while ahead_not_free(robot):
@@ -103,3 +102,4 @@ with Morse() as sim:
                     while left_too_far(robot):
                         pass
                 robot.set_velocity(2, 0)
+            print("Exiting boundary following")
