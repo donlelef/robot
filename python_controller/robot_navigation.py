@@ -78,6 +78,7 @@ with Morse() as sim:
             rotate_to_goal(robot, goal, 1)
             robot.set_velocity(2, 0)
 
+        robot.stop()
         if robot.distance_to_target < 2:
             '''target reached'''
             print("On the target, sir!")
