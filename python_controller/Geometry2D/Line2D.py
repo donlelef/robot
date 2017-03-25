@@ -1,0 +1,45 @@
+from Geometry2D import Point2D
+
+class Line2D(object):
+    """ Represents a straight line in a 2D space """
+    a = b = c = None
+
+    def __init__(self, a, b, c):
+        """ Creates a new line with equation ax + by + c = 0 """
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def contains_point(self, point, tolerance):
+        """ Checks whether a point lays on this line or not, with a given tolerance """
+        return abs(self.a * point.x + self.b * point.y + self.c) < tolerance
+    
+    def __str__(self):
+        """ Returns the equation of this line in the space """
+        if self.b == 0:
+            return "y = {.2f}x + {.2f}".format(-self.a, -self.c)
+        else :
+            return "{.2f}x + {.2f}y + {.2f} = 0".format(self.a, self.b, self.c)
+
+    @staticmethod
+    def from_two_points(p1, p2):
+        """ Returns the instance of line passing through the given points """
+        if p1.distance_from(p2) == 0:
+            raise Exception("From one point infinite lines pass")
+        if point1.x != point2.x:
+                    m = (p2.y - p1.y) / (p2.x - p1.x)
+                    q = (-1 * m * p1.x) + p1.y
+                    return Line2D.from_explicit_form(m, q)
+        else:
+            return Line2D(1, 0, - p1.x)
+
+    @staticmethod
+    def from_explicit_form(m, q):
+        """ Returns a new line with a given slope """
+        return Line2D(-m, 1, -q)
+
+    @staticmethod
+    def are_collinear(p1, p2, p3, tolerance):
+        """ Checks whether three points belong to the same line """
+        return Line2D.from_two_points(p1, p2).contains_point(p3, tolerance)
+
