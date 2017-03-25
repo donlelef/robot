@@ -55,3 +55,7 @@ class Line2D:
         m = (point_2.y  - point_1.y) / (point_2.x - point_1.x)
         q = (-1 * m * point_1.x) + point_1.y
         return Line2D(m, q)
+
+    @staticmethod
+    def _are_parallel_to_y(point1, point2):
+        return point1.x == point2.x

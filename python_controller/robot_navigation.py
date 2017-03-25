@@ -13,7 +13,7 @@ import numpy as np
 import time
 from robot import Robot
 from trilateration_solver import TrilaterationSolver
-from geometric_utils import GeometricUtils,Position2D
+from geometric_utils import *
 import math
 
 
@@ -28,11 +28,13 @@ def left_too_far(robot):
 def left_too_near(robot):
     return robot.at_left_range < 1
 
+
 def rotate_to_goal(robot, goal, velocity):
     vector_to_goal = goal - robot.position
     goal_orientation = math.atan2(vector_to_goal.y, vector_to_goal.x)
     required_rotation_angle = goal_orientation - robot.orientation
     robot.rotate_of(required_rotation_angle, velocity)
+
 
 try:
     from pymorse import Morse
@@ -77,12 +79,12 @@ with Morse() as sim:
                 robot.stop()
             rotate_to_goal(robot, goal, 1)
             robot.set_velocity(2, 0)
-        
+
         if robot.distance_to_target <= 0.5:
             '''target reached'''
             robot.stop()
             break
-        
+
         if robot.ahead_range >= 2:
             '''wall reached -> boundary following phase'''
             initial_distance = robot.distance_to_target
