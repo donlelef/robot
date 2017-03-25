@@ -1,5 +1,5 @@
 import numpy as np
-from geometric_utils import GeometricUtils, Position2D
+from geometric_utils import *
 
 class TrilaterationSolver:
 
@@ -30,7 +30,7 @@ class TrilaterationSolver:
 
 
     def trilaterate_using_projections(self, x1, y1, r1, x2, y2, r2, x3, y3, r3):
-        if self.geometric_utils.check_if_collinear(Position2D(x1, y1), Position2D(x2, y2), Position2D(x3, y3)):
+        if Line2D.are_collinear(Position2D(x1, y1), Position2D(x2, y2), Position2D(x3, y3)):
             print("Points are collinear")
 
         P1 = np.array([x1, y1])
