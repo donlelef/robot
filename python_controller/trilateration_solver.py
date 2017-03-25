@@ -3,10 +3,10 @@ from geometric_utils import *
 
 class TrilaterationSolver:
 
-    geometric_utils = None
+    tolerance = None
 
     def __init__(self, tolerance):
-        self.geometric_utils = GeometricUtils(tolerance)
+        self.tolerance = tolerance
 
     @staticmethod
     def _trilaterate(x1, y1, r1, x2, y2, r2, x3, y3, r3):
@@ -30,7 +30,7 @@ class TrilaterationSolver:
 
 
     def trilaterate_using_projections(self, x1, y1, r1, x2, y2, r2, x3, y3, r3):
-        if Line2D.are_collinear(Position2D(x1, y1), Position2D(x2, y2), Position2D(x3, y3)):
+        if Line2D.are_collinear(Position2D(x1, y1), Position2D(x2, y2), Position2D(x3, y3), self.tolerance):
             print("Points are collinear")
 
         P1 = np.array([x1, y1])

@@ -46,6 +46,7 @@ except ImportError:
 with Morse() as sim:
 
     robot = Robot(sim.robot)
+    robot.stop()
     solver = TrilaterationSolver(0.01)
 
     pos1 = robot.position
@@ -64,7 +65,7 @@ with Morse() as sim:
     goal = solver.trilaterate_using_projections(
         pos1.x, pos1.y, r1, pos2.x, pos2.y, r2, pos3.x, pos3.y, r3)
 
-    line_to_goal = Line2D(robot.position, goal)
+    line_to_goal = Line2D.from_two_points(robot.position, goal)
 
     first_mtg = True
 
@@ -88,7 +89,7 @@ with Morse() as sim:
         if robot.ahead_range >= 2:
             '''wall reached -> boundary following phase'''
             initial_distance = robot.distance_to_target
-            while (not line_to_goal.contains_point(robot.position, 0.5)) and robot.distance_to_target <= initial_distance:
+            while True:
                 if ahead_not_free(robot):
                     robot.set_velocity(0, -2)
                     while ahead_not_free(robot):

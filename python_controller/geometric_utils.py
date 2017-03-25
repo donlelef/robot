@@ -55,21 +55,20 @@ class Line2D:
     @staticmethod 
     def from_explicit_form(m, q):
         return Line2D(-m, 1, -q)
-
+    
     @staticmethod
-    def are_collinear(self, p1, p2, p3, tolerance):
-        return abs((p2.y - p1.y) * (p3.x - p2.x) - (p3.y - p2.y) * (p2.x - p1.x)) < self.tolerance
+    def are_collinear(p1, p2, p3, tolerance):
+        return abs((p2.y - p1.y) * (p3.x - p2.x) - (p3.y - p2.y) * (p2.x - p1.x)) < tolerance
 
     @staticmethod
     def _are_parallel_to_y(point1, point2):
         return point1.x == point2.x
 
-
 def main(): 
-line1 = Line2D.from_two_points(Position2D(0, 0), Position2D(1, 1))
-print(str(line1))
-line2 = Line2D.from_two_points(Position2D(2, 3), Position2D(2, 6))
-print(str(line2))
+    line1 = Line2D.from_two_points(Position2D(0, 0), Position2D(1, 1))
+    print(str(line1))
+    line2 = Line2D.from_two_points(Position2D(2, 3), Position2D(2, 6))
+    print(str(line2))
 
 if __name__ == "__main__":
     main()

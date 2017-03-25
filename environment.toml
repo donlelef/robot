@@ -24,8 +24,8 @@
 		q_cam = 0
 		r_cam = -1.14
 	[[simulation.robot_position]]
-		x = 1
-		y = 1
+		x = -8.77
+		y = 5.41
 		z = 0
 		p = 0
 		q = 0
