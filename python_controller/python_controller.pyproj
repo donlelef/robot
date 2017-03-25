@@ -5,7 +5,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{dbe0caf9-a616-4a16-9026-95671c6d112d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>boundary_following.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -21,7 +22,12 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="boundary_following.py" />
+    <Compile Include="boundary_follow.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry2D\Geometry2DTest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Geometry2D\Line2D.py">
       <SubType>Code</SubType>
     </Compile>
@@ -29,6 +35,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Geometry2D\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="motion_to_goal.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="robot.py" />
