@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7230833c-b602-49b6-8701-d7dc042d487d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>default.py</StartupFile>
+    <StartupFile>python_controller\robot_navigation.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -21,10 +21,8 @@
   <ItemGroup>
     <Compile Include="default.py" />
     <Compile Include="python_controller\boundary_follow.py" />
-    <Compile Include="python_controller\Geometry2D\Geometry2DTest.py" />
-    <Compile Include="python_controller\Geometry2D\Line2D.py" />
-    <Compile Include="python_controller\Geometry2D\Point2D.py" />
-    <Compile Include="python_controller\Geometry2D\__init__.py" />
+    <Compile Include="python_controller\Line2D.py" />
+    <Compile Include="python_controller\Point2D.py" />
     <Compile Include="python_controller\motion_to_goal.py" />
     <Compile Include="python_controller\robot.py" />
     <Compile Include="python_controller\robot_navigation.py" />
@@ -33,7 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="python_controller" />
-    <Folder Include="python_controller\Geometry2D" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>

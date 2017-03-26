@@ -1,5 +1,6 @@
 import numpy as np
-from Geometry2D import Point2D, Line2D
+from Point2D import Point2D
+from Line2D import Line2D
 
 class TrilaterationSolver:
 

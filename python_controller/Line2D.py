@@ -1,4 +1,4 @@
-from Geometry2D import Point2D
+from Point2D import Point2D
 
 class Line2D(object):
     """ Represents a straight line in a 2D space """

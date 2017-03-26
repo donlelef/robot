@@ -1,6 +1,6 @@
 #!  /usr/bin/env python3
 import time
-import Geometry2D
+from Line2D import Line2D, Point2D
 
 class Robot:
     """ A wrapper class for Morse robot data structure """
