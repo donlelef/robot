@@ -13,7 +13,7 @@ class RobotTrilaterator(object):
     def trilaterate_goal(self):
         """
         Get the position of the goal by trilaterating 3 distances.
-        Distances are measured in 3 dinstinct points.
+        Distances are measured in 3 distinct points.
         """
 
         pos1 = self._robot.position

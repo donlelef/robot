@@ -41,5 +41,8 @@ class Line2D(object):
     @classmethod
     def are_collinear(cls, p1, p2, p3, tolerance):
         """ Checks whether three points belong to the same line """
-        return cls.from_two_points(p1, p2).contains_point(p3, tolerance)
+        try:
+            return cls.from_two_points(p1, p2).contains_point(p3, tolerance)
+        except Exception:
+            return True
 

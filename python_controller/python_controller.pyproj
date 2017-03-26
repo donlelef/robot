@@ -25,6 +25,9 @@
     <Compile Include="boundary_follow.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="bug2_exit_condition.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Geometry2D\Geometry2DTest.py">
       <SubType>Code</SubType>
     </Compile>
@@ -37,11 +40,22 @@
     <Compile Include="Geometry2D\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Line2D.py" />
+    <Compile Include="manual_connector.py" />
     <Compile Include="motion_to_goal.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Point2D.py" />
     <Compile Include="robot.py" />
     <Compile Include="robot_navigation.py" />
+    <Compile Include="robot_stop.py" />
+    <Compile Include="robot_trilaterator.py" />
+    <Compile Include="simple_motion.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="trilaterator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="trilateration_solver.py" />
   </ItemGroup>
   <ItemGroup>
