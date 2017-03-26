@@ -26,7 +26,7 @@ class Line2D(object):
         """ Returns the instance of line passing through the given points """
         if p1.distance_from(p2) == 0:
             raise Exception("From one point infinite lines pass")
-        if point1.x != point2.x:
+        if p1.x != p2.x:
                     m = (p2.y - p1.y) / (p2.x - p1.x)
                     q = (-1 * m * p1.x) + p1.y
                     return cls.from_explicit_form(m, q)

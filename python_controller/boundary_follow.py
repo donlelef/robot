@@ -1,4 +1,6 @@
 from robot import Robot
+from Line2D import Line2D
+
 
 class Bug2BoundaryFollower(object):
 
@@ -21,25 +23,27 @@ class Bug2BoundaryFollower(object):
     def follow_till_exit(self):
         """ Makes the robot follow the boundary of the obstacle until an exit condition is verified """
         while not self._exit_boundary_following():
-            if robot.free_space_ahead < robot.SENSOR_RANGE:
-                robot.set_velocity(0, -ANGULAR_VELOCITY)
-                while robot.free_space_ahead < robot.SENSOR_RANGE:
+            if self._robot.free_space_ahead < self._robot.SENSORS_RANGE:
+                self._robot.set_velocity(0, -self.ANGULAR_VELOCITY)
+                while self._robot.free_space_ahead < self._robot.SENSORS_RANGE:
                     pass
-            elif robot.free_space_left < MIN_FREE_SPACE :
-                robot.set_velocity(LINEAR_VELOCITY, -ANGULAR_VELOCITY)
-                while robot.free_space_left < MIN_FREE_SPACE:
+            elif self._robot.free_space_left < self.MIN_FREE_SPACE:
+                self._robot.set_velocity(
+                    self.LINEAR_VELOCITY, -self.ANGULAR_VELOCITY)
+                while self._robot.free_space_left < self.MIN_FREE_SPACE:
                     pass
-            elif robot.free_space_left > MAX_FREE_SPACE:
-                robot.set_velocity(LINEAR_VELOCITY, ANGULAR_VELOCITY)
-                while robot.free_space_left > MAX_FREE_SPACE:
+            elif self._robot.free_space_left > self.MAX_FREE_SPACE:
+                self._robot.set_velocity(
+                    self.LINEAR_VELOCITY, self.ANGULAR_VELOCITY)
+                while self._robot.free_space_left > self.MAX_FREE_SPACE:
                     pass
-            robot.set_velocity(LINEAR_VELOCITY, 0)
+            self._robot.set_velocity(self.LINEAR_VELOCITY, 0)
 
     def _exit_boundary_following(self):
         (not self._is_on_the_line()) or self._is_on_hit_point()
 
     def _is_on_the_line(self):
-        return self._line_to_goal.contains_point(robot.position, LINE_TOLERANCE)
+        return self._line_to_goal.contains_point(self._robot.position, self.LINE_TOLERANCE)
 
     def _is_on_hit_point(self):
-        return self._hit_point.is_close_to(robot.position, INITIAL_POSITION_TOLERANCE)
+        return self._hit_point.is_close_to(self._robot.position, self.INITIAL_POSITION_TOLERANCE)
