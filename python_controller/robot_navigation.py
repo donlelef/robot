@@ -3,7 +3,7 @@ import sys
 from robot import Robot
 from trilateration_solver import TrilaterationSolver
 from robot_trilaterator import RobotTrilaterator
-from trilateration_exit_condition import Trilaterator
+from trilaterator import Trilaterator
 from simple_motion import SimpleMotion
 from boundary_follow import BoundaryFollower
 from bug2_exit_condition import Bug2ExitCondition
@@ -15,17 +15,19 @@ with Morse() as sim:
     robot = Robot(sim.robot)
 
     '''start tmp'''
-    tril_solver = TrilaterationSolver(0.01)
+    tril_solver = TrilaterationSolver(0.25)
     trilaterator = Trilaterator(robot, tril_solver)
-    motion = SimpleMotion(robot, 1, 1, trilaterator)
+    motion = SimpleMotion(robot, 0.1, 0.1, trilaterator)
     boundary = BoundaryFollower(robot, trilaterator)
 
-    while True:
-        motion.go_until_exit()
-        if trilaterator.goal == None:
-            boundary.follow_till_exit()
+    motion.go_until_exit()
+    print('mmmm')
+    if trilaterator.goal == None:
+        print('allahu akbar')
+        boundary.follow_till_exit()
     robot.stop()
     goal = trilaterator.goal
+    print('Target acquired at {}... going for conquer, sir!'.format(goal))
     '''end tmp'''
 
     motion = MotionToGoal(robot, goal)
