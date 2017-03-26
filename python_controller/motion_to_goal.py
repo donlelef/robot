@@ -20,13 +20,13 @@ class MotionToGoal(object):
         self.rotation_velocity = rot_velocity
 
     def go_until_target_or_obstacle(self):
+        robot.stop()
         print("Straaaaaight to the target, sir!")
         while self.robot.free_space_ahead >= robot.SENSOR_RANGE and self.robot.distance_to_target >= 2:
-            time.sleep(0.5)
-            robot.stop()
             self._rotate_to_goal()
             robot.set_velocity(self.motion_velocity, 0)
-        robot.stop()
+            time.sleep(0.5)
+            robot.stop()
 
 
 

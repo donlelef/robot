@@ -9,7 +9,7 @@ class TrilaterationSolver:
         """ Initializes the solver with a given tolerance """
         self.tolerance = tolerance
 
-    def trilaterate_using_projections(self, x1, y1, r1, x2, y2, r2, x3, y3, r3):
+    def solve(self, x1, y1, r1, x2, y2, r2, x3, y3, r3):
         """ Trilaterate a target position given three points and their distance from it """
         if Line2D.are_collinear(Point2D(x1, y1), Point2D(x2, y2), Point2D(x3, y3), self.tolerance):
             raise Exception()

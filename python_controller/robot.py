@@ -1,5 +1,4 @@
-#! /usr/bin/env python3
-
+#!  /usr/bin/env python3
 import time
 import Geometry2D
 
@@ -60,10 +59,12 @@ class Robot:
         delay = abs(radiants / velocity)
         velocity = velocity if radiants > 0 else -velocity
         self.set_velocity(0, velocity).stop_after(delay)
+        return self
 
     def rotate_to(self, radiants, velocity):
         """ Rotates the robot to a given orientation with a certain angular velocity """
         self.rotate_of(radiants - self.orientation, velocity)
+        return self
 
     def stop(self):
         """ Immediately stops the robot """
