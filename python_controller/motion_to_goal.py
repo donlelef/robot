@@ -34,5 +34,5 @@ class MotionToGoal(object):
         goal_orientation = math.atan2(vector_to_goal.y, vector_to_goal.x)
         self.robot.rotate_to(goal_orientation, self.rotation_velocity)
 
-    def _set_recompute_flag():
+    def _set_recompute_flag(self):
         self._route_recompute = True

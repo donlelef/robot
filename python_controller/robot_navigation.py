@@ -26,7 +26,7 @@ with Morse() as sim:
 
         motion.go_until_target_or_obstacle()
 
-        if robot.distance_to_target < 2:
+        if robot.distance_to_target < 2.5:
             print("On the target, sir!")
             break
 
