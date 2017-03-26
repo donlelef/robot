@@ -9,7 +9,7 @@ class Bug2BoundaryFollower(object):
     MAX_FREE_SPACE = 1.5
     MIN_FREE_SPACE = 1
     LINE_TOLERANCE = 0.5
-    INITIAL_POSITION_TOLERANCE = 1
+    INITIAL_POSITION_TOLERANCE = 5
 
     _robot = None
     _line_to_goal = None
@@ -22,7 +22,7 @@ class Bug2BoundaryFollower(object):
 
     def follow_till_exit(self):
         """ Makes the robot follow the boundary of the obstacle until an exit condition is verified """
-        while not self._exit_boundary_following():
+        while self._keep_following():
             if self._robot.free_space_ahead < self._robot.SENSORS_RANGE:
                 self._robot.set_velocity(0, -self.ANGULAR_VELOCITY)
                 while self._robot.free_space_ahead < self._robot.SENSORS_RANGE:
@@ -39,8 +39,8 @@ class Bug2BoundaryFollower(object):
                     pass
             self._robot.set_velocity(self.LINEAR_VELOCITY, 0)
 
-    def _exit_boundary_following(self):
-        (not self._is_on_the_line()) or self._is_on_hit_point()
+    def _keep_following(self):
+        return (not self._is_on_the_line()) or self._is_on_hit_point()
 
     def _is_on_the_line(self):
         return self._line_to_goal.contains_point(self._robot.position, self.LINE_TOLERANCE)
