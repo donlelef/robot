@@ -1,12 +1,12 @@
-from crash_generator.robot import Robot
+from crash_generator.robot.robot import Robot
 from crash_generator.trilateration.planar_geometry import Line2D
 from crash_generator.trilateration.trilateration_solution import TrilaterationSolver
 
 
 class Trilaterator(object):
 
-    COLLINEARITY_THRESHOLD = 0.2
-    PROXIMITY_THRESHOLD = 0.2
+    COLLINEARITY_THRESHOLD = 0.4
+    PROXIMITY_THRESHOLD = 0.4
 
     def __init__(self, robot: Robot, solver: TrilaterationSolver):
         self.goal = None

@@ -8,15 +8,12 @@ class CollinearityException(BaseException):
 
 
 class TrilaterationSolver:
-    def __init__(self, tolerance=0.25):
+    def __init__(self, tolerance=0.2):
         """ Initializes the solver with a given tolerance """
         self.tolerance = tolerance
 
     def solve(self, p1: Point2D, r1, p2: Point2D, r2, p3: Point2D, r3):
         """ Trilaterate a target position given three points and their distance from it """
-        if Line2D.are_collinear(p1, p2, p3, self.tolerance):
-            raise CollinearityException()
-
         P1 = np.array([p1.x, p1.y])
         P2 = np.array([p2.x, p2.y])
         P3 = np.array([p3.x, p3.y])

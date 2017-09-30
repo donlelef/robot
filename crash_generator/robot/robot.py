@@ -7,7 +7,6 @@ class Robot:
     """ A wrapper class for Morse robot data structure """
 
     SENSORS_RANGE = 2
-    SLEEP_TIME = 0.1
 
     def __init__(self, morse_robot: pymorse.Robot, simulation: pymorse.Morse):
         """ Creates a new class connected to a Morse robot """

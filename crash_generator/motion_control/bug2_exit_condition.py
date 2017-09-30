@@ -1,14 +1,8 @@
+from crash_generator import configuration
 from crash_generator.trilateration.planar_geometry import Line2D
 
 
 class Bug2ExitCondition(object):
-
-    LINE_TOLERANCE = 0.5
-    INITIAL_POSITION_TOLERANCE = 5
-
-    _robot = None
-    _line_to_goal = None
-    _hit_point = None
 
     def __init__(self, robot, goal):
         self._robot = robot
@@ -22,7 +16,7 @@ class Bug2ExitCondition(object):
         return (not self._is_on_the_line()) or self._is_on_hit_point()
 
     def _is_on_the_line(self):
-        return self._line_to_goal.contains_point(self._robot.position, self.LINE_TOLERANCE)
+        return self._line_to_goal.contains_point(self._robot.position, configuration.BUG_2_LINE_TOLERANCE)
 
     def _is_on_hit_point(self):
-        return self._hit_point.is_close_to(self._robot.position, self.INITIAL_POSITION_TOLERANCE)
+        return self._hit_point.is_close_to(self._robot.position, configuration.BUG_2_INITIAL_POSITION_TOLERANCE)

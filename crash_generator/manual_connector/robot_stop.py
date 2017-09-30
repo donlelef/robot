@@ -1,4 +1,6 @@
-from crash_generator.robot import Robot
+import sys
+
+from crash_generator.robot.robot import Robot
 
 try:
     from pymorse import Morse
@@ -8,6 +10,6 @@ except ImportError:
 
 
 with Morse() as sim:
-    robot = Robot(sim.robot)
+    robot = Robot(sim.robot, sim)
     robot.stop()
 
