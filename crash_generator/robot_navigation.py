@@ -1,6 +1,6 @@
 from pymorse import Morse
 
-from crash_generator.motion_control.boundary_follow import BoundaryFollower
+from crash_generator.motion_control.boundary_following import BoundaryFollower
 from crash_generator.motion_control.bug2_exit_condition import Bug2ExitCondition
 from crash_generator.motion_control.motion_to_goal import MotionToGoal
 from crash_generator.motion_control.simple_motion import ConstantMotion
@@ -35,12 +35,12 @@ with Morse() as sim:
 
         motion.go_until_target_or_obstacle()
 
-        if robot.distance_to_target <= robot.SENSORS_RANGE * 1.1:
-            print("On the target, sir!")
+        if robot.distance_to_target <= robot.SENSORS_RANGE * 1.5:
+            print("Close to the target. Catching with no fear, sir!")
             break
 
         if robot.free_space_ahead < robot.SENSORS_RANGE:
-            print("Following the bondary until victory, sir!")
+            print("Following the boundary until victory, sir!")
             boundary.follow_till_exit()
             print("Leaving this boundary, sir!")
 

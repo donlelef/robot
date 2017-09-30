@@ -1,5 +1,5 @@
 [simulation]
-	name = "environment"
+	name = "environment_big_maze"
 	fastmode = false
 	[[simulation.robot]]
 		file = "atrv_with_ir"

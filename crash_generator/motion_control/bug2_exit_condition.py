@@ -1,22 +1,37 @@
 from crash_generator import configuration
-from crash_generator.trilateration.planar_geometry import Line2D
+from crash_generator.trilateration.planar_geometry import Line2D, Point2D
 
 
 class Bug2ExitCondition(object):
-
-    def __init__(self, robot, goal):
+    def __init__(self, robot, goal: Point2D):
         self._robot = robot
-        self._hit_point = robot.position
-        self._line_to_goal = Line2D.from_two_points(self._hit_point, goal)
+        self._goal = goal
+        self._hit_point = None
+        self._line_to_goal = None
+        self._has_left_hit_point = False
 
     def evaluate(self):
-        return not self._keep_following()
+        if self._hit_point is None:
+            self.set_hit_point()
+        if (not self._has_left_hit_point) and (not self._is_on_hit_point()):
+            self._has_left_hit_point = True
+        if self._has_left_hit_point and self._is_on_hit_point():
+            self._robot.stop()
+            raise Exception('No path to target. The battle is lost, sir!')
 
-    def _keep_following(self):
-        return (not self._is_on_the_line()) or self._is_on_hit_point()
+        exit_condition = self._is_on_the_line() and self._has_left_hit_point
+        if exit_condition:
+            self._hit_point = None
+        return exit_condition
+
+    def set_hit_point(self):
+        self._has_left_hit_point = False
+        self._hit_point = self._robot.position
+        self._line_to_goal = Line2D.from_two_points(self._hit_point, self._goal)
 
     def _is_on_the_line(self):
-        return self._line_to_goal.contains_point(self._robot.position, configuration.BUG_2_LINE_TOLERANCE)
+        return self._line_to_goal.contains_point(self._robot.position, configuration.BUG_2_LINE_TOLERANCE) and \
+               self._robot.position.distance_from(self._goal) < self._hit_point.distance_from(self._goal)
 
     def _is_on_hit_point(self):
         return self._hit_point.is_close_to(self._robot.position, configuration.BUG_2_INITIAL_POSITION_TOLERANCE)

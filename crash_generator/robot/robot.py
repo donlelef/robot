@@ -1,5 +1,6 @@
 from pymorse import pymorse
 
+from crash_generator import configuration
 from crash_generator.trilateration.planar_geometry import Point2D
 
 
@@ -47,6 +48,11 @@ class Robot:
     def free_space_back(self):
         """ Returns the available space at the back of the robot, as read from infrared sensors"""
         return min(self._morse_object.ir4.get()['range_list'])
+
+    @property
+    def risk_of_collision(self):
+        return min([self.free_space_ahead, self.free_space_left,
+                    self.free_space_right]) < configuration.RISK_OF_COLLISION_DISTANCE
 
     def set_velocity(self, linear, angular):
         """ Sets both linear and angular velocity of this robot """

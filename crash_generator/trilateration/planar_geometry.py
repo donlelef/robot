@@ -53,7 +53,7 @@ class Line2D(object):
 
     def contains_point(self, point: Point2D, tolerance):
         """ Checks whether a point lays on this line or not, with a given tolerance """
-        return abs(self.a * point.x + self.b * point.y + self.c) < tolerance
+        return self.distance_from_point(point) < tolerance
 
     def __str__(self):
         """ Returns the equation of this line in the space """
@@ -86,3 +86,6 @@ class Line2D(object):
             return cls.from_two_points(p1, p2).contains_point(p3, tolerance)
         except SinglePointException:
             return True
+
+    def distance_from_point(self, point:Point2D):
+        return abs(self.a * point.x + self.b * point.y + self.c) / math.sqrt(self.a ** 2 + self.b ** 2)
