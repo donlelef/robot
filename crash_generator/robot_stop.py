@@ -1,6 +1,4 @@
-#! /usr/bin/env python3
-
-from robot import Robot
+from crash_generator.robot import Robot
 
 try:
     from pymorse import Morse

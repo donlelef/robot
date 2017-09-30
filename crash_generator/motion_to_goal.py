@@ -1,9 +1,8 @@
 import math
-import time
 from threading import Timer
 
-class MotionToGoal(object):
 
+class MotionToGoal(object):
     TIME_OF_DRIFT = 2
 
     robot = None
@@ -12,7 +11,7 @@ class MotionToGoal(object):
     rotation_velocity = None
     _route_recompute = True
 
-    def __init__(self, robot, goal, motion_velocity = 2, rot_velocity = 2):
+    def __init__(self, robot, goal, motion_velocity=2, rot_velocity=2):
         self.robot = robot
         self.goal = goal
         self.motion_velocity = motion_velocity

@@ -1,5 +1,4 @@
-from robot import Robot
-from Line2D import Line2D
+from crash_generator.trilateration.planar_geometry import Line2D
 
 
 class Bug2ExitCondition(object):

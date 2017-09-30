@@ -1,17 +1,18 @@
-#!  /usr/bin/env python3
-import time
-from Line2D import Line2D, Point2D
+from pymorse import pymorse
+
+from crash_generator.trilateration.planar_geometry import Point2D
+
 
 class Robot:
     """ A wrapper class for Morse robot data structure """
 
     SENSORS_RANGE = 2
+    SLEEP_TIME = 0.1
 
-    _morse_object = None
-
-    def __init__(self, morse_robot):
+    def __init__(self, morse_robot: pymorse.Robot, simulation: pymorse.Morse):
         """ Creates a new class connected to a Morse robot """
         self._morse_object = morse_robot
+        self._simulation = simulation
 
     @property
     def position(self):
@@ -73,6 +74,10 @@ class Robot:
 
     def stop_after(self, seconds):
         """ Stops the robot after a certain delay in seconds.\n Delay is not asynchronous """
-        time.sleep(seconds)
-        self.stop()
+        self.sleep(seconds).stop()
+        return self
+
+    def sleep(self, seconds):
+        """Does nothing for a given amount of time"""
+        self._simulation.sleep(seconds)
         return self

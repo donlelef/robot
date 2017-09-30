@@ -1,3 +1,6 @@
+from crash_generator.robot import Robot
+
+
 class BoundaryFollower(object):
     """Generic algorithm for boundary following with boolean exit condition"""
 
@@ -9,7 +12,7 @@ class BoundaryFollower(object):
     _exit_condition = None
     _robot = None
 
-    def __init__(self, robot, exit_condition):
+    def __init__(self, robot: Robot, exit_condition):
         self._robot = robot
         self._exit_condition = exit_condition
 
@@ -30,6 +33,6 @@ class BoundaryFollower(object):
                     self.LINEAR_VELOCITY, self.ANGULAR_VELOCITY)
                 while self._robot.free_space_left > self.MAX_FREE_SPACE:
                     pass
-            self._robot.set_velocity(self.LINEAR_VELOCITY, 0)
+            self._robot.set_velocity(self.LINEAR_VELOCITY, 0).sleep(0.1)
 
 
