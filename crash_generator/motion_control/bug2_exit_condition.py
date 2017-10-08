@@ -1,9 +1,10 @@
 from crash_generator import configuration
+from crash_generator.robot.robot import Robot
 from crash_generator.trilateration.planar_geometry import Line2D, Point2D
 
 
 class Bug2ExitCondition(object):
-    def __init__(self, robot, goal: Point2D):
+    def __init__(self, robot: Robot, goal: Point2D):
         self._robot = robot
         self._goal = goal
         self._hit_point = None
@@ -19,7 +20,8 @@ class Bug2ExitCondition(object):
             self._robot.stop()
             raise Exception('No path to target. The battle is lost, sir!')
 
-        exit_condition = self._is_on_the_line() and self._has_left_hit_point
+        exit_condition = (self._is_on_the_line() and self._has_left_hit_point) or \
+                             self._robot.position.distance_from(self._goal) < self._robot.SENSORS_RANGE
         if exit_condition:
             self._hit_point = None
         return exit_condition
@@ -35,3 +37,10 @@ class Bug2ExitCondition(object):
 
     def _is_on_hit_point(self):
         return self._hit_point.is_close_to(self._robot.position, configuration.BUG_2_INITIAL_POSITION_TOLERANCE)
+
+
+class Bug2WithNoTargetExitCondition(Bug2ExitCondition):
+
+    def evaluate(self):
+        return super(Bug2WithNoTargetExitCondition, self).evaluate() or \
+               self._robot.distance_to_target <= configuration.PROXIMITY_RANGE

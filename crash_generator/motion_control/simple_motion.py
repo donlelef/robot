@@ -1,8 +1,10 @@
 from crash_generator import configuration
+from crash_generator.motion_control.boundary_following import BoundaryFollower
 from crash_generator.robot.robot import Robot
 
 
 class ConstantMotion(object):
+
     def __init__(self, robot: Robot, linear_vel, angular_vel, exit_condition):
         self._robot = robot
         self._linear_vel = linear_vel
@@ -14,3 +16,4 @@ class ConstantMotion(object):
             self._robot.set_velocity(self._linear_vel, self._angular_vel)
             self._robot.sleep(configuration.SAMPLE_TIME)
         self._robot.stop()
+

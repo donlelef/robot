@@ -1,3 +1,4 @@
+import math
 from pymorse import pymorse
 
 from crash_generator import configuration
@@ -22,7 +23,10 @@ class Robot:
     @property
     def distance_to_target(self):
         """ Returns the current distance to the goal position """
-        return self._morse_object.prox.get()['near_robots']['GOAL']
+        distance = self._morse_object.prox.get()['near_robots'].get('GOAL')
+        if distance is None:
+            distance = math.inf
+        return distance
 
     @property
     def orientation(self):

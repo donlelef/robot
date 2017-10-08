@@ -24,15 +24,15 @@ class BoundaryFollower(object):
 
             elif self._robot.free_space_left < configuration.BOUNDARY_FOLLOWING_MIN_FREE_SPACE:
                 self._robot.set_velocity(
-                    configuration.BOUNDARY_FOLLOWING_LINEAR_SPEED,
-                    -configuration.BOUNDARY_FOLLOWING_ANGULAR_VELOCITY)
+                    configuration.BOUNDARY_FOLLOWING_LINEAR_SPEED*0.33,
+                    -configuration.BOUNDARY_FOLLOWING_ANGULAR_VELOCITY*0.5)
                 while self._robot.free_space_left < configuration.BOUNDARY_FOLLOWING_MIN_FREE_SPACE:
                     pass
 
             elif self._robot.free_space_left > configuration.BOUNDARY_FOLLOWING_MAX_FREE_SPACE:
                 self._robot.set_velocity(
-                    configuration.BOUNDARY_FOLLOWING_LINEAR_SPEED,
-                    configuration.BOUNDARY_FOLLOWING_ANGULAR_VELOCITY)
+                    configuration.BOUNDARY_FOLLOWING_LINEAR_SPEED*0.33,
+                    configuration.BOUNDARY_FOLLOWING_ANGULAR_VELOCITY*0.5)
                 while self._robot.free_space_left > configuration.BOUNDARY_FOLLOWING_MAX_FREE_SPACE:
                     pass
 

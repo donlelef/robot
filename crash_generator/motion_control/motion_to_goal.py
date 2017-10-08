@@ -2,11 +2,11 @@ import math
 from threading import Timer
 
 from crash_generator import configuration
+from crash_generator.robot.robot import Robot
 
 
 class MotionToGoal(object):
-
-    def __init__(self, robot, goal,
+    def __init__(self, robot: Robot, goal,
                  motion_velocity=configuration.MOTION_TO_GOAL_LINEAR_SPEED,
                  rot_velocity=configuration.MOTION_TO_GOAL_ANGULAR_VELOCITY):
         self.robot = robot
@@ -17,16 +17,17 @@ class MotionToGoal(object):
 
     def go_until_target_or_obstacle(self):
         self.robot.stop()
-        print("Straaaaaight to the target, sir!")
 
-        while self.robot.free_space_ahead >= self.robot.SENSORS_RANGE and self.robot.distance_to_target >= 2:
+        while self.robot.free_space_ahead >= self.robot.SENSORS_RANGE and \
+                        self.robot.position.distance_from(self.goal) >= self.robot.SENSORS_RANGE:
             if self._route_recompute:
                 self.robot.stop()
                 self._rotate_to_goal()
                 self._route_recompute = False
                 Timer(configuration.MOTION_TO_GOAL_TRAJECTORY_CORRECTION_INTERVAL,
                       self._set_recompute_flag).start()
-                self.robot.set_velocity(self.motion_velocity, 0)
+                if self.robot.free_space_ahead >= self.robot.SENSORS_RANGE:
+                    self.robot.set_velocity(self.motion_velocity, 0)
 
     def _rotate_to_goal(self):
         vector_to_goal = self.goal - self.robot.position

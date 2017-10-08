@@ -4,29 +4,29 @@
 [simulation]
 	numrobot = 1
 	numobject = 3
-	map = "square_maze_simple"
+	map = "square_maze_medium"
 	actuators = ["MotionVW", "Keyboard"]
 	sensors = ["Pose", "Proximity", "Infrared"]
 	[[simulation.objects]]
 		file = "target"
 		name = "GOAL"
-		x = 5
-		y = 5
+		x = 18
+		y = 18
 		z = 0.01
 		[simulation.objects.properties]
 			Label = "GOAL"
 			GOAL = true
 	[[simulation.camera_position]]
-		x_cam = -18.0
-		y_cam = -6.7
-		z_cam = 10.8
-		p_cam = 1.09
+		x_cam = 0
+		y_cam = 0
+		z_cam = 50
+		p_cam = 0
 		q_cam = 0
-		r_cam = -1.14
+		r_cam = 0
 	[[simulation.robot_position]]
-		x = -8.77
-		y = 5.41
-		z = 0
+		x = -10
+		y = -10
+		z = 1
 		p = 0
 		q = 0
 		r = 0

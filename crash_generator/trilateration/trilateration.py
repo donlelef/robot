@@ -16,6 +16,7 @@ class Trilaterator(object):
         self._distances_by_position = {}
 
     def _add_record(self):
+
         keys = [k for k in self._distances_by_position]
         self._robot.stop()
         new_p = self._robot.position
